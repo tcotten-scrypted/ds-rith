@@ -1,0 +1,6 @@
+---
+kind: Building
+spec:
+  name: Graffiti Center
+  location: [ 0, -8, 8 ]
+  facingDirection: RIGHT
