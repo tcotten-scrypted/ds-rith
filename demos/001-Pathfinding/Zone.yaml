@@ -1,0 +1,10 @@
+---
+kind: ZoneKind
+spec:
+  name: demo-001-pathfinding
+  description: This zone shows off very basic pathfinding via waypoints
+  url: images/building-totems/Block_Van.png
+  contract:
+    file: ./Zone.sol
+  plugin:
+    file: ./Zone.js
