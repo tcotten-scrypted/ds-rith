@@ -1,48 +1,5 @@
 import ds from 'downstream';
 
-const TILE_ID_PREFIX = "0xe5a62ffc";
-const TILE_DEFAULT_COLOR = "#7777FF";
-const ZONE_ID = 1;
-
-const PAINT_DEFS = [
-    {coords: [ZONE_ID, -1, 2, -1], color: "#ff1ed6" },
-    {coords: [ZONE_ID, -1, -2, 3], color: "#ff1ed6" },
-    {coords: [ZONE_ID, 3, -2, -1], color: "#ff1ed6" },
-    {coords: [ZONE_ID, 2, -1, -1], color: "#ffc877" },
-    {coords: [ZONE_ID, 1, 0, -1],  color: "#ffc877" },
-    {coords: [ZONE_ID, 0, 1, -1],  color: "#ffc877" },
-    {coords: [ZONE_ID, -1, 1, 0],  color: "#ffc877" },
-    {coords: [ZONE_ID, -1, 0, 1],  color: "#ffc877" },
-    {coords: [ZONE_ID, -1, -1, 2], color: "#ffc877" },
-    {coords: [ZONE_ID, 0, -2, 2],  color: "#ffc877" },
-    {coords: [ZONE_ID, 1, -2, 1],  color: "#ffc877" },
-    {coords: [ZONE_ID, 2, -2, 0],  color: "#ffc877" }
-];
-
-const PAINT_TILES = PAINT_DEFS.map(def => Tile.fromCoords(def.coords, def.color));
-const PAINT_STATE_OBJECTS = PAINT_TILES.map(tile => tile.getStateObject('color'));
-
-console.log(PAINT_STATE_OBJECTS)
-
-export default async function update(state) {
-    const state_diff = {
-        version: 1,
-        map: [
-            {
-                type: "tile",
-                key: "color",
-                id: getTileIdFromCoords([1, 0, 0, 0]),
-                value: "#ffc877"
-            }
-        ],
-        components: []
-    }
-
-    //state_diff['map'] = PAINT_STATE_OBJECTS;
-
-    return state_diff;
-}
-
 class Tile {
     static DEFAULT_STATE_KEYS = ['type', 'id']
 
@@ -64,7 +21,7 @@ class Tile {
     getStateObject(state_key) {
         const stateObject = {};
         
-        DEFAULT_STATE_KEYS.forEach(key => {
+        Tile.DEFAULT_STATE_KEYS.forEach(key => {
             stateObject[key] = this[key];
         });
 
@@ -171,6 +128,40 @@ function getTileCoordsFromId(tileId) {
     }
     return coords;
 };
+
+const TILE_ID_PREFIX = "0xe5a62ffc";
+const TILE_DEFAULT_COLOR = "#7777FF";
+const ZONE_ID = 1;
+
+const PAINT_DEFS = [
+    {coords: [ZONE_ID, -1, 2, -1], color: "#ff1ed6" },
+    {coords: [ZONE_ID, -1, -2, 3], color: "#ff1ed6" },
+    {coords: [ZONE_ID, 3, -2, -1], color: "#ff1ed6" },
+    {coords: [ZONE_ID, 2, -1, -1], color: "#ffc877" },
+    {coords: [ZONE_ID, 1, 0, -1],  color: "#ffc877" },
+    {coords: [ZONE_ID, 0, 1, -1],  color: "#ffc877" },
+    {coords: [ZONE_ID, -1, 1, 0],  color: "#ffc877" },
+    {coords: [ZONE_ID, -1, 0, 1],  color: "#ffc877" },
+    {coords: [ZONE_ID, -1, -1, 2], color: "#ffc877" },
+    {coords: [ZONE_ID, 0, -2, 2],  color: "#ffc877" },
+    {coords: [ZONE_ID, 1, -2, 1],  color: "#ffc877" },
+    {coords: [ZONE_ID, 2, -2, 0],  color: "#ffc877" }
+];
+
+const PAINT_TILES = PAINT_DEFS.map(def => Tile.fromCoords(def.coords, def.color));
+const PAINT_STATE_OBJECTS = PAINT_TILES.map(tile => tile.getStateObject('color'));
+
+export default async function update(state) {
+    const state_diff = {
+        version: 1,
+        map: [],
+        components: []
+    };
+
+    state_diff['map'] = PAINT_STATE_OBJECTS;
+
+    return state_diff;
+}
 
 function logState(state) {
     console.log('State sent to plugin:', state);
